@@ -1,12 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="TaskAggregateRepositoryTest.cs" company="GBM"> GBM GRUPO BURSÁTIL MEXICANO, S.A. DE C.V. CASA DE BOLSA. ©2017</copyright>
-//  --------------------------------------------------------------------------------------------------------------------
-
-using System;
-
-using CallCenterModel;
-
-using FluentAssertions;
+﻿using System;
 
 using Xunit;
 
@@ -16,10 +8,7 @@ namespace Repository.Integrations.tests
     {
         private readonly Guid correlationId;
 
-        public TaskAggregateRepositoryTest()
-        {
-            this.correlationId = new Guid("9ca7a625-932f-4fda-b752-a46205094cba");
-        }
+        public TaskAggregateRepositoryTest() { correlationId = new Guid("9ca7a625-932f-4fda-b752-a46205094cba"); }
 
         //[Fact]
         //public void when_add_new_call_taskaggregate_then_is_created_in_repository()
@@ -80,7 +69,7 @@ namespace Repository.Integrations.tests
             taskAggregate.Erlang = 1;
             taskAggregate.LevelService = 1;
 
-            var result = repository.GetAll();           
+            var result = repository.GetAll();
         }
     }
 }

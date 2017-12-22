@@ -1,8 +1,8 @@
-﻿using RabbitMQ.Client;
-using RabbitMQ.Client.Events;
-using System;
-
+﻿using System;
 using System.Text;
+
+using RabbitMQ.Client;
+using RabbitMQ.Client.Events;
 
 using RegisterHandler;
 
@@ -10,58 +10,31 @@ namespace EventEsbRabbitMQ
 {
     public class EventEsbRabbitMq : IEventEsb, IDisposable
     {
-        private readonly IConnection connection;
-
         private readonly IModel channel;
-
-        private EventingBasicConsumer consumer;
+        private readonly IConnection connection;
 
         private readonly TaskRegisterHandler taskRegisterHandler;
 
+        private EventingBasicConsumer consumer;
+
         public EventEsbRabbitMq()
         {
-            var factory = new ConnectionFactory { HostName = "localhost" };
+            var factory = new ConnectionFactory {HostName = "localhost"};
             connection = factory.CreateConnection();
             channel = connection.CreateModel();
             QueueDeclare();
             taskRegisterHandler = new TaskRegisterHandler();
         }
 
-        public void Publish(string message)
+        public void Dispose()
         {
-            var body = Encoding.UTF8.GetBytes(message);
-
-            channel.BasicPublish(exchange: "",
-                                 routingKey: "hello",
-                                 basicProperties: null,
-                                 body: body);
-        }
-
-        public void Subscribe()
-        {
-            EventConsumer();
-            BasicConsume();
-        }
-
-        private void QueueDeclare()
-        {
-            channel.QueueDeclare(queue: "hello",
-                                 durable: false,
-                                 exclusive: false,
-                                 autoDelete: false,
-                                 arguments: null);
-        }
-
-        private void BasicConsume()
-        {
-            channel.BasicConsume(queue: "hello",
-                                 autoAck: true,
-                                 consumer: consumer);
+            connection?.Dispose();
+            channel?.Dispose();
         }
 
         public void EventConsumer()
         {
-             consumer = new EventingBasicConsumer(channel);
+            consumer = new EventingBasicConsumer(channel);
 
             consumer.Received += (model, ea) =>
             {
@@ -73,10 +46,36 @@ namespace EventEsbRabbitMQ
             };
         }
 
-        public void Dispose()
+        public void Publish(string message)
         {
-            connection?.Dispose();
-            channel?.Dispose();
+            var body = Encoding.UTF8.GetBytes(message);
+
+            channel.BasicPublish("",
+                                 "hello",
+                                 null,
+                                 body);
+        }
+
+        public void Subscribe()
+        {
+            EventConsumer();
+            BasicConsume();
+        }
+
+        private void BasicConsume()
+        {
+            channel.BasicConsume("hello",
+                                 true,
+                                 consumer);
+        }
+
+        private void QueueDeclare()
+        {
+            channel.QueueDeclare("hello",
+                                 false,
+                                 false,
+                                 false,
+                                 null);
         }
     }
 }

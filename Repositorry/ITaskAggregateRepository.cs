@@ -1,9 +1,6 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ITaskAggregateRepository.cs" company="GBM"> GBM GRUPO BURSÁTIL MEXICANO, S.A. DE C.V. CASA DE BOLSA. ©2017</copyright>
-//  --------------------------------------------------------------------------------------------------------------------
-
-using System;
+﻿using System;
 using System.Collections.Generic;
+
 using CallCenterModel;
 
 namespace Repository
@@ -12,10 +9,10 @@ namespace Repository
     {
         void Add(TaskAggregate taskAggregate);
 
-        TaskAggregate Update(TaskAggregate taskAggregate);
-
         TaskAggregate Get(TimeSpan intervalTime);
 
         List<TaskAggregate> GetAll();
+
+        TaskAggregate Update(TaskAggregate taskAggregate);
     }
 }

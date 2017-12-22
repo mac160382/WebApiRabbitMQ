@@ -1,8 +1,4 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="TaskRegisterHandler.cs" company="GBM"> GBM GRUPO BURSÁTIL MEXICANO, S.A. DE C.V. CASA DE BOLSA. ©2017</copyright>
-//  --------------------------------------------------------------------------------------------------------------------
-
-using System;
+﻿using System;
 
 using CallCenterModel;
 
@@ -16,11 +12,7 @@ namespace RegisterHandler
     {
         private readonly ITaskAggregateRepository repository;
 
-        public TaskRegisterHandler()
-        {
-            repository = new TaskAggregateRepository();
-            
-        }
+        public TaskRegisterHandler() { repository = new TaskAggregateRepository(); }
 
         public void TaskRegisterHandlerInvoke(string message)
         {
@@ -31,28 +23,27 @@ namespace RegisterHandler
             var isNew = taskAggregate == null;
 
             if (taskAggregate == null)
-            {
                 taskAggregate = CreateTaskAggregate(interval, task.CorrelationId);
-            }
-            
 
             if (task.EndTime.HasValue)
-            {
                 TaskRegisterHandlerAggregate(taskAggregate);
-            }
             else
-            {
                 TaskRegisterHandlerIncrement(taskAggregate);
-            }
 
             if (isNew)
-            {
                 repository.Add(taskAggregate);
-            }
             else
-            {
                 repository.Update(taskAggregate);
-            }
+        }
+
+        private void ComputeErlang(TaskAggregate taskAggregate)
+        {
+            taskAggregate.Erlang = taskAggregate.Resolved * new Random().Next();
+        }
+
+        private void ComputeLevelService(TaskAggregate taskAggregate)
+        {
+            taskAggregate.LevelService = (decimal) (taskAggregate.Resolved * 100) / taskAggregate.Quantity;
         }
 
         private TaskAggregate CreateTaskAggregate(TimeSpan interval, Guid correlationId)
@@ -67,45 +58,29 @@ namespace RegisterHandler
             return taskAggregate;
         }
 
-        private void TaskRegisterHandlerIncrement(TaskAggregate taskAggregate)
-        {
-            IncrementQuantity(taskAggregate);
-            ComputeLevelService(taskAggregate);            
-        }
-
-        private void TaskRegisterHandlerAggregate(TaskAggregate taskAggregate)
-        {            
-            IncrementResolved(taskAggregate);
-            ComputeLevelService(taskAggregate);
-            ComputeErlang(taskAggregate);            
-        }
-
         private TimeSpan GetInterval(TimeSpan beginTimeSpan)
         {
-            if(beginTimeSpan.Minutes > 30)
+            if (beginTimeSpan.Minutes > 30)
                 return new TimeSpan(beginTimeSpan.Hours, 30, 00);
 
             return new TimeSpan(beginTimeSpan.Hours, 00, 00);
         }
 
-        private void IncrementQuantity(TaskAggregate taskAggregate)
+        private void IncrementQuantity(TaskAggregate taskAggregate) { taskAggregate.Quantity++; }
+
+        private void IncrementResolved(TaskAggregate taskAggregate) { taskAggregate.Resolved++; }
+
+        private void TaskRegisterHandlerAggregate(TaskAggregate taskAggregate)
         {
-            taskAggregate.Quantity++;
+            IncrementResolved(taskAggregate);
+            ComputeLevelService(taskAggregate);
+            ComputeErlang(taskAggregate);
         }
 
-        private void IncrementResolved(TaskAggregate taskAggregate)
+        private void TaskRegisterHandlerIncrement(TaskAggregate taskAggregate)
         {
-            taskAggregate.Resolved++;
-        }
-
-        private void ComputeLevelService(TaskAggregate taskAggregate)
-        {
-            taskAggregate.LevelService = (decimal)(taskAggregate.Resolved * 100) / taskAggregate.Quantity;
-        }
-
-        private void ComputeErlang(TaskAggregate taskAggregate)
-        {
-            taskAggregate.Erlang = taskAggregate.Resolved * new Random().Next();
+            IncrementQuantity(taskAggregate);
+            ComputeLevelService(taskAggregate);
         }
     }
 }
