@@ -3,7 +3,7 @@
 //  --------------------------------------------------------------------------------------------------------------------
 
 using System;
-
+using System.Collections.Generic;
 using CallCenterModel;
 
 namespace Repository
@@ -15,5 +15,7 @@ namespace Repository
         TaskAggregate Update(TaskAggregate taskAggregate);
 
         TaskAggregate Get(TimeSpan intervalTime);
+
+        List<TaskAggregate> GetAll();
     }
 }

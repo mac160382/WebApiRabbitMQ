@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Repository;
 using Swashbuckle.AspNetCore.Swagger;
 
 namespace CallCenterAggregate
@@ -28,6 +29,7 @@ namespace CallCenterAggregate
             services.AddMvc();
 
             services.AddSingleton<IEventEsb, EventEsbRabbitMQ.EventEsbRabbitMq>();
+            services.AddTransient<ITaskAggregateRepository, TaskAggregateRepository>();
 
             services.AddSwaggerGen(c => c.SwaggerDoc("v1", new Info { Title = "CallCenterAggregate  ", Version = "V1" }));
         }

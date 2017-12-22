@@ -3,7 +3,7 @@
 //  --------------------------------------------------------------------------------------------------------------------
 
 using System;
-
+using System.Collections.Generic;
 using CallCenterModel;
 
 using MongoDB.Driver;
@@ -49,6 +49,13 @@ namespace Repository
             var bd = mongoClient.GetDatabase(DataBase);
             var collections = bd.GetCollection<TaskAggregate>(Collecton);
             return collections.Find(x => x.Interval == intervalTime).FirstOrDefault();
+        }
+
+        public List<TaskAggregate> GetAll()
+        {
+            var bd = mongoClient.GetDatabase(DataBase);
+            var collections = bd.GetCollection<TaskAggregate>(Collecton);
+            return collections.AsQueryable().ToList();            
         }
     }
 }
