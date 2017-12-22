@@ -61,7 +61,7 @@ namespace EventEsbRabbitMQ
 
         public void EventConsumer()
         {
-            consumer = new EventingBasicConsumer(channel);
+             consumer = new EventingBasicConsumer(channel);
 
             consumer.Received += (model, ea) =>
             {

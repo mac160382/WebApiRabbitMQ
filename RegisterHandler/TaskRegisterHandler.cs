@@ -27,7 +27,14 @@ namespace RegisterHandler
             //Task eventtask
             var task = JsonConvert.DeserializeObject<Task>(message);
             var interval = GetInterval(task.BeginTime);
-            var taskAggregate = repository.Get(interval) ?? CreateTaskAggregate(interval, task.CorrelationId);
+            var taskAggregate = repository.Get(interval);
+            var isNew = taskAggregate == null;
+
+            if (taskAggregate == null)
+            {
+                taskAggregate = CreateTaskAggregate(interval, task.CorrelationId);
+            }
+            
 
             if (task.EndTime.HasValue)
             {
@@ -36,6 +43,15 @@ namespace RegisterHandler
             else
             {
                 TaskRegisterHandlerIncrement(taskAggregate);
+            }
+
+            if (isNew)
+            {
+                repository.Add(taskAggregate);
+            }
+            else
+            {
+                repository.Update(taskAggregate);
             }
         }
 
@@ -48,25 +64,20 @@ namespace RegisterHandler
                 CorrelationId = correlationId
             };
 
-            repository.Add(taskAggregate);
-
             return taskAggregate;
         }
 
         private void TaskRegisterHandlerIncrement(TaskAggregate taskAggregate)
         {
             IncrementQuantity(taskAggregate);
-            ComputeLevelService(taskAggregate);
+            ComputeLevelService(taskAggregate);            
         }
 
         private void TaskRegisterHandlerAggregate(TaskAggregate taskAggregate)
-        {
-            IncrementQuantity(taskAggregate);
+        {            
             IncrementResolved(taskAggregate);
             ComputeLevelService(taskAggregate);
-            ComputeErlang(taskAggregate);
-
-            repository.Update(taskAggregate);
+            ComputeErlang(taskAggregate);            
         }
 
         private TimeSpan GetInterval(TimeSpan beginTimeSpan)

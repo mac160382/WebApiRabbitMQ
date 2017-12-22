@@ -27,7 +27,7 @@ namespace Repository
         {
             var bd = mongoClient.GetDatabase(DataBase);
             var collections = bd.GetCollection<TaskAggregate>(Collecton);
-            taskAggregate._id = taskAggregate.CorrelationId;
+            
             collections.InsertOne(taskAggregate);
         }
 
