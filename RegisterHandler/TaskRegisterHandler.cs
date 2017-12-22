@@ -48,6 +48,8 @@ namespace RegisterHandler
                 CorrelationId = correlationId
             };
 
+            repository.Add(taskAggregate);
+
             return taskAggregate;
         }
 
@@ -63,6 +65,8 @@ namespace RegisterHandler
             IncrementResolved(taskAggregate);
             ComputeLevelService(taskAggregate);
             ComputeErlang(taskAggregate);
+
+            repository.Update(taskAggregate);
         }
 
         private TimeSpan GetInterval(TimeSpan beginTimeSpan)
