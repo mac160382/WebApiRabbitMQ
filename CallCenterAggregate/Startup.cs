@@ -27,10 +27,9 @@ namespace CallCenterAggregate
         {
             services.AddMvc();
 
-            services.AddSingleton<IEventEsb, EventEsbRabbitMQ.EventEsbRabbitMQ>();
+            services.AddSingleton<IEventEsb, EventEsbRabbitMQ.EventEsbRabbitMq>();
 
             services.AddSwaggerGen(c => c.SwaggerDoc("v1", new Info { Title = "CallCenterAggregate  ", Version = "V1" }));
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -54,7 +53,7 @@ namespace CallCenterAggregate
 
             var eventBus = app.ApplicationServices.GetRequiredService<IEventEsb>();
 
-            eventBus.Suscribe();
+            eventBus.Subscribe();
         }
     }
 }

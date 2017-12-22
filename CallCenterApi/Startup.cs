@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+
+using EventEsbRabbitMQ;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -30,6 +33,7 @@ namespace CallCenterApi
             services.AddSwaggerGen(c=> c.SwaggerDoc("v1", new Info { Title = "CallTask  ",  Version = "V1" }));
 
             services.AddTransient<ICallTaskRepository, CallTaskRepository>();
+            services.AddSingleton<IEventEsb, EventEsbRabbitMQ.EventEsbRabbitMq>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

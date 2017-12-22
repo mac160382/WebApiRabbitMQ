@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2010
+VisualStudioVersion = 15.0.27004.2006
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Repository", "Repositorry\Repository.csproj", "{BA9B1BAE-13EF-4959-BAD2-E56A3DD33E86}"
 EndProject
@@ -13,9 +13,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskApi", "CallCenterApi\Ta
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "RabbitMQESB", "RabbitMQESB", "{79EF0D67-F70E-42E9-9600-E33CCD7A762A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventEsbRabbitMQ", "EventEsbRabbitMQ\EventEsbRabbitMQ.csproj", "{B22E6F40-FE18-42E4-8837-57E40E7313AC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventEsbRabbitMQ", "EventEsbRabbitMQ\EventEsbRabbitMQ.csproj", "{B22E6F40-FE18-42E4-8837-57E40E7313AC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CallCenterAggregateApi", "CallCenterAggregate\CallCenterAggregateApi.csproj", "{820531DB-2859-441E-AE44-ACBF2AA6B1DE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CallCenterAggregateApi", "CallCenterAggregate\CallCenterAggregateApi.csproj", "{820531DB-2859-441E-AE44-ACBF2AA6B1DE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RegisterHandler", "RegisterHandler\RegisterHandler.csproj", "{93608D4B-B6D9-4704-A3D7-D97F8E5A1A3A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,6 +49,10 @@ Global
 		{820531DB-2859-441E-AE44-ACBF2AA6B1DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{820531DB-2859-441E-AE44-ACBF2AA6B1DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{820531DB-2859-441E-AE44-ACBF2AA6B1DE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{93608D4B-B6D9-4704-A3D7-D97F8E5A1A3A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93608D4B-B6D9-4704-A3D7-D97F8E5A1A3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93608D4B-B6D9-4704-A3D7-D97F8E5A1A3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93608D4B-B6D9-4704-A3D7-D97F8E5A1A3A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

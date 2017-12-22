@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using Repository;
 using System.Collections.Generic;
 
+using EventEsbRabbitMQ;
+
+using Newtonsoft.Json;
 
 namespace CallCenterApi.Controllers
 {
@@ -11,9 +14,12 @@ namespace CallCenterApi.Controllers
     {
         private readonly ICallTaskRepository callTaskRepository;
 
-        public TaskController(ICallTaskRepository callTaskRepository)
+        private readonly IEventEsb eventEsbRabbitMq;
+
+        public TaskController(ICallTaskRepository callTaskRepository, IEventEsb eventEsb)
         {
             this.callTaskRepository = callTaskRepository;
+            this.eventEsbRabbitMq = eventEsb;
         }
 
         // GET api/values
@@ -36,6 +42,8 @@ namespace CallCenterApi.Controllers
         {
             this.callTaskRepository.Add(task);
             /*Mandar mensaje a RabittMQ de creación*/
+            var message = JsonConvert.SerializeObject(task);
+            this.eventEsbRabbitMq.Publish(message);
         }
 
         // PUT api/values/5
@@ -44,6 +52,8 @@ namespace CallCenterApi.Controllers
         {
             this.callTaskRepository.Update(task);
             /*Mandar mensaje a RabittMQ de Actalizacion*/
+            var message = JsonConvert.SerializeObject(task);
+            this.eventEsbRabbitMq.Publish(message);
         }
 
         // DELETE api/values/5

@@ -16,7 +16,7 @@ namespace Repository.Integrations.tests
         [Fact]
         public void when_add_new_call_task_then_is_created_in_repository()
         {
-            ICallTaskRepository repository = new Repository.CallTaskRepository();
+            ICallTaskRepository repository = new CallTaskRepository();
             var task = new Task();
             task._id = correlationId;
             task.Date = new DateTime(2017, 12, 01);
@@ -30,7 +30,7 @@ namespace Repository.Integrations.tests
         [Fact]
         public void when_update_call_task_then_update_enddate_in_repository()
         {
-            ICallTaskRepository repository = new Repository.CallTaskRepository();
+            ICallTaskRepository repository = new CallTaskRepository();
             var task = new Task();
             task._id = correlationId;
             task.Date = new DateTime(2017, 12, 01);

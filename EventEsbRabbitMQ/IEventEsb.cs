@@ -6,8 +6,8 @@ namespace EventEsbRabbitMQ
 {
     public interface IEventEsb
     {
-        void Publish();
+        void Publish(string message);
 
-        void Suscribe();
+        void Subscribe();
     }
 }
